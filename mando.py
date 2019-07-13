@@ -1,6 +1,6 @@
-################################################
-## Solo realiza la animación del mando de NES ##
-################################################
+################################
+## Animación del mando de NES ##
+################################
 
 import cv2
 
@@ -42,12 +42,3 @@ def get_moves(action):
 	if action[0]:
 		moves.append("b")
 	return moves
-
-'''
-array = [1,0,1,1,0,1,0,1,1]
-moves = get_moves(array)
-img = draw_buttons(moves)
-
-cv2.imshow('mando',img)
-cv2.waitKey()
-'''
