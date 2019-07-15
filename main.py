@@ -31,8 +31,8 @@ def frame_to_array(ob):
     # Transforma frame de una matriz bidimensional a un arreglo unidimensional
     return ob.flatten()
 
-def fitness_function(current_score,rew,jump_variation):
-    current_score += (rew+(jump_variation)*1000)
+def fitness_function(current_score,rew,jump_score_variation,backward_walk):
+    current_score += (rew+(jump_score_variation)*50-backward_walk*0.1)
     return current_score
 
 def eval_genomes(genomes, config):
@@ -73,14 +73,20 @@ def eval_genomes(genomes, config):
             actual_jump_score = info.get("jump_score")
             # Variación de saltos sobre simios
             if actual_jump_score > prev_jump_score:
-                jump_variation = actual_jump_score-prev_jump_score
+                jump_score_variation = actual_jump_score-prev_jump_score
                 # Actualiza el valor de saltos sobre simios
                 prev_jump_score = actual_jump_score
             else:
-                jump_variation = 0
+                jump_score_variation = 0
+            
+            # Verifica si Charlie dio un paso hacia atrás (el muy cobarde)
+            if neuralnet_output[6]:
+                backward_walk = 1
+            else:
+                backward_walk = 0
             
             # Score actual acumulado
-            current_score = fitness_function(current_score,rew,jump_variation)
+            current_score = fitness_function(current_score,rew,jump_score_variation,backward_walk)
 
             # Si el puntaje obtenido por el genome actual
             # es mayor que el maximo de toda la generación
@@ -113,7 +119,6 @@ if __name__ == "__main__":
     
     p.add_reporter(neat.StdOutReporter(True))
     p.add_reporter(neat.StatisticsReporter())
-    # Guardar cada 10 frames
     p.add_reporter(neat.Checkpointer(10))
 
     winner = p.run(eval_genomes)
