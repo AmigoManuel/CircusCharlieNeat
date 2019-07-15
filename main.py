@@ -31,6 +31,10 @@ def frame_to_array(ob):
     # Transforma frame de una matriz bidimensional a un arreglo unidimensional
     return ob.flatten()
 
+def fitness_function(current_score,rew,jump_variation):
+    current_score += (rew+(jump_variation)*1000)
+    return current_score
+
 def eval_genomes(genomes, config):
     for genome_id, genome in genomes:
         # Primer frame
@@ -46,9 +50,13 @@ def eval_genomes(genomes, config):
         counter = 0
         # Valor de estado actual, indica si la partida acaba
         done = False
+        # Numero de saltos iniciales ya realizados hasta la etapa 2
+        # Ahora en la etapa 2 se consideran saltos sobre simios
+        # Inicia en 132 por movimientos realizados en la etapa 1
+        prev_jump_score = 132
         # Mientras la partida no acabe
         while not done:
-            #env.render()
+            env.render()
             # Transforma el frame anterior a un arreglo unidimensional
             oned_image = frame_to_array(ob)
             # Recibe el output desde la red neuronal a partir del frame entregado
@@ -59,10 +67,21 @@ def eval_genomes(genomes, config):
             # Obteniendo un nuevo frame ob
             # un nuevo reward dependiendo del movimiento realizado
             # y un nuevo indicador de done para saber el estado de Charlie
-            ob, rew, done, _info = env.step(neuralnet_output)
+            ob, rew, done, info = env.step(neuralnet_output)
 
-            # Añade el reward obtenido al punaje del genome actual
-            current_score += rew
+            # Saltos sobre simios actuales
+            actual_jump_score = info.get("jump_score")
+            # Variación de saltos sobre simios
+            if actual_jump_score > prev_jump_score:
+                jump_variation = actual_jump_score-prev_jump_score
+                # Actualiza el valor de saltos sobre simios
+                prev_jump_score = actual_jump_score
+            else:
+                jump_variation = 0
+            
+            # Score actual acumulado
+            current_score = fitness_function(current_score,rew,jump_variation)
+
             # Si el puntaje obtenido por el genome actual
             # es mayor que el maximo de toda la generación
             if current_score>current_max_score:
