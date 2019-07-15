@@ -1,6 +1,6 @@
 # CircusCharlieNeat
 ## jupyter notebook
--> https://github.com/AmigoManuel/CircusCharlieNeat/blob/master/CircusCharlieNeat.ipynb
+-> https://github.com/AmigoManuel/CircusCharlieNeat/blob/master/CircusCharlieNeatJup.ipynb
 ## Python implementation
 -> https://github.com/AmigoManuel/CircusCharlieNeat/blob/master/main.py
 ## Neat Config file
