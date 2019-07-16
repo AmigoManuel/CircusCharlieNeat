@@ -8,7 +8,9 @@ https://github.com/AmigoManuel/CircusCharlieNeat/blob/master/config-feedforward
 
 # Importante
 ## Para obtener variables del entorno
+```
 copiar carpeta CircusCharlie-Nes en ...\Anaconda3\Lib\site-packages\retro\data\stable\
+```
 ## Tranformación a video
 1. Instalar Chocolatey desde la CMD de Windows
 ```
