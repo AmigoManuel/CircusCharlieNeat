@@ -19,8 +19,8 @@ copiar carpeta CircusCharlie-Nes en ...\Anaconda3\Lib\site-packages\retro\data\s
 ```
 choco install ffmpeg
 ```
-4. Reiniciar cmd
-5. Sobre la carpeta de ficheros bkd ejecutar
+4. Reiniciar CMD
+5. Sobre la carpeta de ficheros bk2 ejecutar
 ```
 python -m retro.scripts.playback_movie nombre_de_partida.bk2
 ```
